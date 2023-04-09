@@ -2,9 +2,10 @@ import { View, StyleSheet, Alert, Text } from "react-native";
 import OutlinedButton from "../UI/OutlinedButton";
 import { Colors } from "../../constants/colors";
 import { getCurrentPositionAsync, useForegroundPermissions, PermissionStatus } from "expo-location";
-import { useEffect, useState } from "react";
+import { useEffect, useState  } from "react";
 import { getMapPreview } from '../../util/location';
 import { useNavigation, useRoute, useIsFocused } from "@react-navigation/native";
+import { getAddress } from "../../util/location";
 
 
 const LocationPicker = ({ onPickLocation }) => {
@@ -24,7 +25,16 @@ const LocationPicker = ({ onPickLocation }) => {
     }, [route, isFocused]);
 
     useEffect(() => {
-        onPickLocation(pickedLocation);
+
+        const handleLocation = async () => {
+            if (pickedLocation) {
+                const address = await getAddress(pickedLocation.lat, pickedLocation.lng);
+                onPickLocation({ ...pickedLocation, address });
+            };
+        };
+
+        handleLocation();
+        
     }, [pickedLocation, onPickLocation]);
 
     const verifyPermission = async () => {
