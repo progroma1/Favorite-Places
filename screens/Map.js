@@ -3,7 +3,7 @@ import { Alert, StyleSheet } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import IconButton from "../components/UI/IconButton";
 
-const Map = ({ navigation }) => {
+const Map = ({ navigation, route }) => {
 
     const [selectedLocation, setSelectedLocation] = useState();
 
